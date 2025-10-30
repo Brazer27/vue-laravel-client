@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
 
-const API_URL = 'http://localhost:8000/api'
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
@@ -24,7 +24,7 @@ export const useAuthStore = defineStore('auth', {
       this.error = null
       
       try {
-        const response = await axios.post(`${API_URL}/register`, userData)
+        const response = await axios.post(`${API_URL}/api/register`, userData)
         
         if (response.data.success) {
           this.token = response.data.data.token
@@ -49,7 +49,7 @@ export const useAuthStore = defineStore('auth', {
       this.error = null
       
       try {
-        const response = await axios.post(`${API_URL}/login`, credentials)
+        const response = await axios.post(`${API_URL}/api/login`, credentials)
         
         if (response.data.success) {
           this.token = response.data.data.token
@@ -72,7 +72,7 @@ export const useAuthStore = defineStore('auth', {
     async logout() {
       try {
         if (this.token) {
-          await axios.post(`${API_URL}/logout`)
+          await axios.post(`${API_URL}/api/logout`)
         }
       } catch (error) {
         console.error('Logout error:', error)
@@ -90,7 +90,7 @@ export const useAuthStore = defineStore('auth', {
       if (!this.token) return
       
       try {
-        const response = await axios.get(`${API_URL}/user`)
+        const response = await axios.get(`${API_URL}/api/user`)
         this.user = response.data.data
       } catch (error) {
         console.error('Fetch user error:', error)

@@ -5,10 +5,11 @@ import axios from 'axios'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
-import './style.css'
 
-axios.defaults.withCredentials = true
-axios.defaults.baseURL = 'http://localhost:8000'
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+
+axios.defaults.withCredentials = false
+axios.defaults.baseURL = API_URL
 
 const pinia = createPinia()
 const app = createApp(App)
